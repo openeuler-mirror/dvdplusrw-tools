@@ -1,6 +1,6 @@
 Name:           dvd+rw-tools
 Version:        7.1
-Release:        32
+Release:        33
 Summary:        Application to master the Blu-ray Disc and DVD media
 License:        GPLv2
 URL:            http://fy.chalmers.se/~appro/linux/DVD+RW/
@@ -65,5 +65,8 @@ export LDFLAGS="$RPM_LD_FLAGS"
 %{_mandir}/man1/*.1*
 
 %changelog
+* Tue Oct 26 2021 chenchen <chen_aka_jan@163.com> - 7.1-33
+- change the spec file name to be the same as the repo name
+
 * Wed Nov 20 2019 openEuler Buildteam <buildteam@openeuler.org> - 7.1-32
 - Package init
