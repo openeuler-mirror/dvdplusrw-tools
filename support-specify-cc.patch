@@ -1,0 +1,26 @@
+diff -up dvd+rw-tools-7.1/Makefile.m4.orig2 dvd+rw-tools-7.1/Makefile.m4
+--- dvd+rw-tools-7.1/Makefile.m4.orig2	2023-04-21 21:34:10.449355481 +0800
++++ dvd+rw-tools-7.1/Makefile.m4	2023-04-21 21:36:20.909863992 +0800
+@@ -189,9 +189,9 @@ ifelse(OS,Linux,[
+ #
+ # Linux section
+ #
+-CC	=gcc
++CC	?=gcc
+ CFLAGS	+=$(WARN) -O2 -D_REENTRANT
+-CXX	=g++
++CXX	?=g++
+ CXXFLAGS+=$(WARN) -O2 -fno-exceptions -D_REENTRANT
+ LDLIBS	=-lpthread
+ LINK.o	=$(LINK.cc)
+diff -up dvd+rw-tools-7.1/Makefile.orig2 dvd+rw-tools-7.1/Makefile
+--- dvd+rw-tools-7.1/Makefile.orig2	2023-04-21 21:38:40.416230953 +0800
++++ dvd+rw-tools-7.1/Makefile	2023-04-21 21:40:22.933691336 +0800
+@@ -1,5 +1,6 @@
+ all:
+-	@(m4 -DOS=`uname -s` Makefile.m4 | $(MAKE) -f - dvd+rw-tools)
++	@(m4 -DOS=`uname -s` Makefile.m4 > Makefile)
++	@(cat Makefile)
+ install:# BSD make doesn't support wild-card targets:-(
+ 	@(m4 -DOS=`uname -s` Makefile.m4 | $(MAKE) -f - $@)
+ nothing:# dumb target
