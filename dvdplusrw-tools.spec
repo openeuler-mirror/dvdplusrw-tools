@@ -1,6 +1,6 @@
 Name:           dvd+rw-tools
 Version:        7.1
-Release:        33
+Release:        34
 Summary:        Application to master the Blu-ray Disc and DVD media
 License:        GPLv2
 URL:            http://fy.chalmers.se/~appro/linux/DVD+RW/
@@ -18,6 +18,7 @@ Patch0008:      0008-dvd+rw-tools-7.1-format.patch
 Patch0009:      0009-dvd+rw-tools-7.1-bluray_srm+pow.patch
 Patch0010:      0010-dvd+rw-tools-7.1-bluray_pow_freespace.patch
 Patch0011:      0011-dvd+rw-tools-7.1-sysmacro-inc.patch
+Patch0012:      support-specify-cc.patch
 
 BuildRequires:  gcc-c++ kernel-headers m4
 Requires:       genisoimage
@@ -43,9 +44,18 @@ install -m 644 %{SOURCE1} index.html
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 export CXXFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 export LDFLAGS="$RPM_LD_FLAGS"
+%if "%toolchain" == "clang"
+    CFLAGS="$CFLAGS -Wno-error=reserved-user-defined-literal"
+    CXXFLAGS="$CXXFLAGS -Wno-error=reserved-user-defined-literal"
+%endif
+
 %make_build WARN="-DDEFAULT_BUF_SIZE_MB=16 -DRLIMIT_MEMLOCK"
 
 %install
+%if "%toolchain" == "clang"
+    CFLAGS="$CFLAGS -Wno-error=reserved-user-defined-literal"
+    CXXFLAGS="$CXXFLAGS -Wno-error=reserved-user-defined-literal"
+%endif
 %makeinstall
 
 %pre
@@ -65,6 +75,9 @@ export LDFLAGS="$RPM_LD_FLAGS"
 %{_mandir}/man1/*.1*
 
 %changelog
+* Fri Apr 21 2023 jammyjellyfish <jammyjellyfish255@outlook.com> - 7.1-34
+- Fix clang build error
+
 * Tue Oct 26 2021 chenchen <chen_aka_jan@163.com> - 7.1-33
 - change the spec file name to be the same as the repo name
 
